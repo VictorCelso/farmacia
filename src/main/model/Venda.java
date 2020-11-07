@@ -40,4 +40,18 @@ public class Venda {
     public void setTotal(double total) {
         this.total = total;
     }
+
+
+    public String toString(){
+        String venda ="Cliente "+cpfCliente;
+        venda+= "\nProduto          Estoque     Valor   Validade    Fornecedor\n";
+        for (Produto produto :
+                produtos) {
+            venda+=String.format("%s   %d    %f.2      %s      %s\n\n",produto.getDescricao(),
+                    produto.getEstoque(),produto.getPreco(),produto.getValidade().toString(),produto.getFornecedor());
+
+        }
+        venda+="Total: $ "+total;
+        return venda;
+    }
 }

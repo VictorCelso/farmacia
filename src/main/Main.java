@@ -2,39 +2,39 @@ import model.Cosmetico;
 import model.Medicamento;
 import model.Produto;
 import model.Venda;
-import net.bytebuddy.utility.RandomString;
 
+import java.nio.charset.Charset;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
 public class Main {
-    private static RandomString randomString = new RandomString();
+    private static byte[] randomString = new byte[10];
     private static Random random = new Random();
     public static void main(final String[] args) throws Exception {
-        realizarVenda();
-        System.out.println(String.format(""));
+        System.out.println(realizarVenda().toString());
     }
 
     private static Produto comprarCosmetico(){
         Produto cosmetico = new Cosmetico();
-        cosmetico.setDescricao(randomString.nextString());
-        cosmetico.setEstoque(random.nextInt());
-        cosmetico.setFornecedor(randomString.nextString());
-        cosmetico.setPreco(random.nextDouble());
-        cosmetico.setValidade(LocalDate.now().plusDays(random.nextInt()));
-        return cosmetico;
+        return getProduto(cosmetico);
+    }
+
+    private static Produto getProduto(Produto produto) {
+        random.nextBytes(randomString);
+        produto.setDescricao(new String(randomString, Charset.defaultCharset()));
+        produto.setEstoque(random.nextInt());
+        random.nextBytes(randomString);
+        produto.setFornecedor(new String(randomString, Charset.defaultCharset()));
+        produto.setPreco(random.nextDouble());
+        produto.setValidade(LocalDate.now().plusDays(random.nextInt()));
+        return produto;
     }
 
     private static Produto comprarMedicamento(){
         Produto medicamento = new Medicamento();
-        medicamento.setDescricao(randomString.nextString());
-        medicamento.setEstoque(random.nextInt());
-        medicamento.setFornecedor(randomString.nextString());
-        medicamento.setPreco(random.nextDouble());
-        medicamento.setValidade(LocalDate.now().plusDays(random.nextInt()));
-        return medicamento;
+        return getProduto(medicamento);
     }
 
     private static Venda realizarVenda(){
